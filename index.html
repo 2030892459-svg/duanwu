@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="referrer" content="no-referrer">
+  <title>粽叶飘香，端午安康 | 民俗交互式H5</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Microsoft YaHei", SimSun, sans-serif;
+    }
+    body {
+      color: #222;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .h5-wrap {
+      width: 100%;
+      height: 100vh;
+      overflow-y: scroll;
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+    }
+    .page {
+      width: 100%;
+      height: 100vh;
+      scroll-snap-align: start;
+      padding: 40px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+
+    /* 第1页指定图 */
+    .page1 {
+      background: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)),
+      url("https://img.shetu66.com/2023/11/14/1699910822915161.png") center/cover no-repeat;
+      color: #222;
+    }
+    /* 第2页原图 */
+    .page2 {
+      background: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)),
+      url("https://img.shetu66.com/2023/10/26/1698301694872485.png") center/cover no-repeat;
+      color: #222;
+    }
+    /* 第3页指定图 */
+    .page3 {
+      background: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)),
+      url("https://bpic.588ku.com/back_origin_min_pic/21/05/26/95487db8dbaeef2d282a5db0c08bc5ff.jpg") center/cover no-repeat;
+      color: #222;
+    }
+    /* 第4页原图 */
+    .page4 {
+      background: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)),
+      url("https://img.redocn.com/sheji/20260120/duanwubeijingsucai_13748919.jpg") center/cover no-repeat;
+      color: #222;
+    }
+    /* 5、6、7共用背景 */
+    .page5, .page6, .page7 {
+      background: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)),
+      url("https://bpic.588ku.com/back_pic/06/13/24/6662728a1aa884b.jpg") center/cover no-repeat;
+      color: #222;
+    }
+    /* 第8页渐变底色 */
+    .page8 {
+      background: linear-gradient(#f0f7f3, #e8efe9);
+    }
+
+    .main-title {
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 16px;
+      letter-spacing: 4px;
+    }
+    .sub-title {
+      font-size: 18px;
+      opacity: 0.9;
+      margin-bottom: 60px;
+    }
+    .page-title {
+      font-size: 26px;
+      color: #a83227;
+      margin-bottom: 30px;
+      font-weight: bold;
+    }
+    .text-box {
+      line-height: 1.8;
+      font-size: 16px;
+      max-width: 90%;
+    }
+    .text-box p {
+      margin-bottom: 16px;
+    }
+    .custom-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      width: 100%;
+      margin-top: 20px;
+    }
+    .custom-item {
+      background: rgba(255,255,255,0.75);
+      padding: 16px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,60,30,0.1);
+    }
+    .custom-item h4 {
+      color: #247049;
+      margin-bottom: 8px;
+    }
+    .quiz-box {
+      width: 100%;
+      background: rgba(255,255,255,0.85);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+    .quiz-question {
+      font-weight: bold;
+      margin-bottom: 12px;
+      text-align: left;
+    }
+    .quiz-option {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 10px 12px;
+      margin: 8px 0;
+      border: 1px solid #b2e4c8;
+      border-radius: 8px;
+      background: #ffffff;
+      cursor: pointer;
+    }
+    .quiz-option.selected {
+      border-color: #247049;
+      background: #e8f5ee;
+    }
+    .quiz-option:hover {
+      background: #e8f5ee;
+      border-color: #247049;
+    }
+    .quiz-result {
+      margin-top: 16px;
+      font-weight: bold;
+      color: #247049;
+      display: none;
+    }
+    .card-game-box {
+      width: 100%;
+      margin-top: 20px;
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    .card-item {
+      aspect-ratio: 1/1;
+      background: #247049;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 24px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .card-item.open {
+      background: #fff;
+      color: #a83227;
+      border: 2px solid #247049;
+    }
+    .tip-down {
+      position: absolute;
+      bottom: 30px;
+      font-size: 14px;
+      opacity: 0.7;
+    }
+    .lock-tip {
+      color: #a83227;
+      font-weight: bold;
+      margin-top:12px;
+      font-size:15px;
+    }
+    .sign-text {
+      margin-top: 40px;
+      font-size: 14px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+<div class="h5-wrap" id="h5Container">
+  <!-- 第1页 -->
+  <div class="page page1" data-lock="false">
+    <h1 class="main-title">粽叶飘香，端午安康</h1>
+    <p class="sub-title">千年民俗文化专题</p>
+    <p class="tip-down">↓ 向上滑动浏览</p>
+  </div>
+
+  <!-- 第2页 -->
+  <div class="page page2" data-lock="false">
+    <h2 class="page-title">端午序章</h2>
+    <div class="text-box">
+      <p>又是一年端午至，满城粽叶香。</p>
+      <p>作为国家级非物质文化遗产，端午节跨越两千余年，承载着国人的家国情怀与民俗记忆。</p>
+      <p>今天，我们一起解锁端午完整文化密码。</p>
+    </div>
+    <p class="tip-down">继续上滑</p>
+  </div>
+
+  <!-- 第3页 -->
+  <div class="page page3" data-lock="false">
+    <h2 class="page-title">端午溯源</h2>
+    <div class="text-box">
+      <p><strong>节日由来</strong><br>端午为农历五月初五，又称端阳节、龙舟节、浴兰节。</p>
+      <p><strong>千古传说</strong><br>相传为纪念爱国诗人屈原。屈原心系家国投江明志，百姓划船寻觅、投粽护尸，习俗代代流传。</p>
+      <p>古时五月疫病多发，端午也被赋予驱邪避疫、祈福安康的美好寓意。</p>
+    </div>
+    <p class="tip-down">继续上滑</p>
+  </div>
+
+  <!-- 第4页 -->
+  <div class="page page4" data-lock="false">
+    <h2 class="page-title">四大经典民俗</h2>
+    <div class="custom-grid">
+      <div class="custom-item">
+        <h4>食粽子</h4>
+        <p>南北风味各有千秋，甜粽软糯、咸粽鲜香。</p>
+      </div>
+      <div class="custom-item">
+        <h4>赛龙舟</h4>
+        <p>击鼓扬帆百舸争流，尽显奋勇争先精神。</p>
+      </div>
+      <div class="custom-item">
+        <h4>挂艾草菖蒲</h4>
+        <p>门前悬草木驱虫净气，守护四季安康。</p>
+      </div>
+      <div class="custom-item">
+        <h4>佩香囊</h4>
+        <p>彩绳绣囊填充香草，随身祈福平安吉祥。</p>
+      </div>
+    </div>
+    <p class="tip-down">继续上滑</p>
+  </div>
+
+  <!-- 第5页 答题锁页 -->
+  <div class="page page5" data-lock="true">
+    <h2 class="page-title">端午知识小问答</h2>
+    <div class="quiz-box">
+      <div class="quiz-question">1. 端午节是农历哪一天？</div>
+      <div class="quiz-option" data-ans="wrong">A. 正月初一</div>
+      <div class="quiz-option" data-ans="right">B. 五月初五</div>
+      <div class="quiz-option" data-ans="wrong">C. 八月十五</div>
+
+      <div class="quiz-question">2. 下列哪项不属于端午习俗？</div>
+      <div class="quiz-option" data-ans="wrong">A. 赛龙舟</div>
+      <div class="quiz-option" data-ans="right">B. 赏月</div>
+      <div class="quiz-option" data-ans="wrong">C. 挂艾草</div>
+
+      <div class="quiz-question">3. 粽子最初为纪念哪位先贤？</div>
+      <div class="quiz-option" data-ans="right">A. 屈原</div>
+      <div class="quiz-option" data-ans="wrong">B. 李白</div>
+      <div class="quiz-option" data-ans="wrong">C. 杜甫</div>
+
+      <div class="quiz-result" id="quizRes">答题完成！滑动已解锁，可上滑前往小游戏</div>
+    </div>
+    <p class="lock-tip" id="quizLockTip">⚠️ 完成全部3道题目，才能继续滑动</p>
+    <p class="tip-down">答完题目再上滑</p>
+  </div>
+
+  <!-- 第6页 翻牌锁页 -->
+  <div class="page page6" data-lock="true">
+    <h2 class="page-title">端午翻牌配对挑战</h2>
+    <p>点击卡片翻牌，找出相同端午元素即可配对成功</p>
+    <div class="card-game-box">
+      <div class="card-grid" id="cardWrap"></div>
+    </div>
+    <p class="lock-tip" id="cardLockTip">⚠️ 完成全部配对，才能继续滑动</p>
+    <p class="tip-down">通关游戏再上滑</p>
+  </div>
+
+  <!-- 第7页 -->
+  <div class="page page7" data-lock="false">
+    <h2 class="page-title">端午文化新声</h2>
+    <div class="text-box">
+      <p>如今的端午，不再只是传统民俗。</p>
+      <p>非遗展示、民俗体验、城市龙舟赛事遍地开花，古老节日融入现代生活，传统文化持续焕发新生。</p>
+      <p>愿这份千年传承，被更多年轻人看见与热爱。</p>
+    </div>
+    <p class="tip-down">最后一页署名</p>
+  </div>
+
+  <!-- 第8页 署名 -->
+  <div class="page page8" data-lock="false">
+    <h2 class="page-title">岁岁端午，岁岁平安</h2>
+    <div class="text-box">
+      <p>愿清风送福，粽叶传香，万事安康。</p>
+    </div>
+    <div class="sign-text">
+      <p>制作小组：赵志鑫 & 李雨蒙</p>
+      <p>完成日期：2026年06月08日</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // 全局统一容器变量
+  const h5Container = document.getElementById('h5Container');
+  const pageHeight = window.innerHeight;
+  let currentPageIndex = 0;
+  // 锁页状态：索引0-7对应8页，true=可滑动，false=锁定
+  const pageUnlockState = [true, true, true, true, false, false, true, true];
+  let isScrolling = false;
+
+  // 滚动拦截核心修复
+  h5Container.addEventListener('scroll', function() {
+    if (isScrolling) return;
+    isScrolling = true;
+    const scrollTop = h5Container.scrollTop;
+    const targetIndex = Math.round(scrollTop / pageHeight);
+    // 向下回滚无限制
+    if (targetIndex < currentPageIndex) {
+      currentPageIndex = targetIndex;
+      setTimeout(() => isScrolling = false, 300);
+      return;
+    }
+    // 向上滑动校验锁页
+    if (targetIndex > currentPageIndex) {
+      // 当前页未完成解锁，强制拉回当前页
+      if (!pageUnlockState[currentPageIndex]) {
+        h5Container.scrollTo({
+          top: currentPageIndex * pageHeight,
+          behavior: 'smooth'
+        });
+      } else {
+        currentPageIndex = targetIndex;
+      }
+    }
+    setTimeout(() => isScrolling = false, 300);
+  })
+
+  // ========== 答题模块修复 ==========
+  const quizOptions = document.querySelectorAll(".quiz-option");
+  const quizRes = document.getElementById("quizRes");
+  const quizLockTip = document.getElementById("quizLockTip");
+  let selectedCount = 0;
+  const totalQuestion = 3;
+  quizOptions.forEach(item => {
+    item.onclick = function() {
+      // 已选过禁止重复计数
+      if (this.classList.contains("selected")) return;
+      this.classList.add("selected");
+      selectedCount += 1;
+      // 3题全部选择完成解锁第5页(index4)
+      if (selectedCount === totalQuestion) {
+        quizRes.style.display = "block";
+        quizLockTip.style.display = "none";
+        pageUnlockState[4] = true;
+      }
+    }
+  })
+
+  // ========== 翻牌配对游戏完整修复 ==========
+  const cardWrap = document.getElementById("cardWrap");
+  const cardLockTip = document.getElementById("cardLockTip");
+  const cardIcons = ["🥟","🚣","🌿","🧧","🥟","🚣","🌿","🧧"];
+  let openCards = [];
+  let lockClick = false;
+  let matchCompleteCount = 0;
+  const totalMatchGroup = 4;
+
+  // 洗牌函数
+  function shuffle(arr) {
+    return arr.sort(() => Math.random() - 0.5);
+  }
+  let shuffledCards = shuffle([...cardIcons]);
+
+  // 动态生成卡片
+  shuffledCards.forEach(icon => {
+    const card = document.createElement("div");
+    card.className = "card-item";
+    card.dataset.icon = icon;
+    card.innerText = "?";
+    cardWrap.appendChild(card);
+
+    card.onclick = function() {
+      if (lockClick || this.classList.contains("open")) return;
+      this.classList.add("open");
+      this.innerText = this.dataset.icon;
+      openCards.push(this);
+
+      // 翻开两张判断匹配
+      if (openCards.length === 2) {
+        lockClick = true;
+        const c1 = openCards[0];
+        const c2 = openCards[1];
+        if (c1.dataset.icon === c2.dataset.icon) {
+          // 匹配成功
+          matchCompleteCount++;
+          openCards = [];
+          lockClick = false;
+          // 4组全部配对解锁第6页(index5)
+          if (matchCompleteCount === totalMatchGroup) {
+            cardLockTip.style.display = "none";
+            pageUnlockState[5] = true;
+            alert("全部配对完成！已解锁滑动至下一页");
+          }
+        } else {
+          // 不匹配，延时翻回
+          setTimeout(() => {
+            c1.classList.remove("open");
+            c2.classList.remove("open");
+            c1.innerText = "?";
+            c2.innerText = "?";
+            openCards = [];
+            lockClick = false;
+          }, 1000)
+        }
+      }
+    }
+  })
+</script>
+</body>
+</html>
