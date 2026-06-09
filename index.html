@@ -30,49 +30,50 @@
       height: 100vh;
       scroll-snap-align: start;
       padding: 40px 24px;
+      position: relative;
+    }
+    /* 1、第一、二页 端午主题纯色背景 */
+    .page1 {
+      /* 端午清雅青绿色纯色主题背景 */
+      background-color: #e6f4ee;
+      color: #222;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
-      position: relative;
     }
-
-    /* 第1页指定图 */
-    .page1 {
-      background: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)),
-      url("https://img.shetu66.com/2023/11/14/1699910822915161.png") center/cover no-repeat;
-      color: #222;
-    }
-    /* 第2页原图 */
     .page2 {
-      background: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)),
-      url("https://img.shetu66.com/2023/10/26/1698301694872485.png") center/cover no-repeat;
+      /* 端午柔和浅黛绿纯色背景 */
+      background-color: #f0f7f3;
       color: #222;
+      /* 文本侧边竖向排列布局 */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      text-align: left;
+      padding-left: 40px;
     }
-    /* 第3页指定图 */
-    .page3 {
-      background: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)),
-      url("https://bpic.588ku.com/back_origin_min_pic/21/05/26/95487db8dbaeef2d282a5db0c08bc5ff.jpg") center/cover no-repeat;
-      color: #222;
-    }
-    /* 第4页原图 */
-    .page4 {
-      background: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)),
-      url("https://img.redocn.com/sheji/20260120/duanwubeijingsucai_13748919.jpg") center/cover no-repeat;
-      color: #222;
-    }
-    /* 5、6、7共用背景 */
-    .page5, .page6, .page7 {
+    /* 2、第三、四页 统一和第五六七页同款背景 */
+    .page3, .page4, .page5, .page6, .page7 {
       background: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)),
       url("https://bpic.588ku.com/back_pic/06/13/24/6662728a1aa884b.jpg") center/cover no-repeat;
       color: #222;
     }
-    /* 第8页渐变底色 */
     .page8 {
       background: linear-gradient(#f0f7f3, #e8efe9);
     }
-
+    /* 第三页文本侧边竖向排列样式 */
+    .page3 {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      text-align: left;
+      padding-left: 40px;
+    }
+    /* 通用文字样式 */
     .main-title {
       font-size: 36px;
       font-weight: bold;
@@ -93,11 +94,12 @@
     .text-box {
       line-height: 1.8;
       font-size: 16px;
-      max-width: 90%;
+      max-width: 85%;
     }
     .text-box p {
       margin-bottom: 16px;
     }
+    /* 民俗网格布局 */
     .custom-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -115,6 +117,7 @@
       color: #247049;
       margin-bottom: 8px;
     }
+    /* 答题模块样式 */
     .quiz-box {
       width: 100%;
       background: rgba(255,255,255,0.85);
@@ -152,6 +155,7 @@
       color: #247049;
       display: none;
     }
+    /* 翻牌游戏样式 */
     .card-game-box {
       width: 100%;
       margin-top: 20px;
@@ -178,11 +182,14 @@
       color: #a83227;
       border: 2px solid #247049;
     }
+    /* 提示文字样式 */
     .tip-down {
       position: absolute;
       bottom: 30px;
       font-size: 14px;
       opacity: 0.7;
+      left: 50%;
+      transform: translateX(-50%);
     }
     .lock-tip {
       color: #a83227;
@@ -199,14 +206,14 @@
 </head>
 <body>
 <div class="h5-wrap" id="h5Container">
-  <!-- 第1页 -->
+  <!-- 第1页：封面页 -->
   <div class="page page1" data-lock="false">
     <h1 class="main-title">粽叶飘香，端午安康</h1>
     <p class="sub-title">千年民俗文化专题</p>
     <p class="tip-down">↓ 向上滑动浏览</p>
   </div>
 
-  <!-- 第2页 -->
+  <!-- 第2页：端午序章（侧边竖向文本） -->
   <div class="page page2" data-lock="false">
     <h2 class="page-title">端午序章</h2>
     <div class="text-box">
@@ -217,18 +224,18 @@
     <p class="tip-down">继续上滑</p>
   </div>
 
-  <!-- 第3页 -->
+  <!-- 第3页：端午溯源（侧边竖向文本） -->
   <div class="page page3" data-lock="false">
     <h2 class="page-title">端午溯源</h2>
     <div class="text-box">
-      <p><strong>节日由来</strong><br>端午为农历五月初五，又称端阳节、龙舟节、浴兰节。</p>
-      <p><strong>千古传说</strong><br>相传为纪念爱国诗人屈原。屈原心系家国投江明志，百姓划船寻觅、投粽护尸，习俗代代流传。</p>
+      <p><strong>节日由来</strong><br/>端午为农历五月初五，又称端阳节、龙舟节、浴兰节。</p>
+      <p><strong>千古传说</strong><br/>相传为纪念爱国诗人屈原。屈原心系家国投江明志，百姓划船寻觅、投粽护尸，习俗代代流传。</p>
       <p>古时五月疫病多发，端午也被赋予驱邪避疫、祈福安康的美好寓意。</p>
     </div>
     <p class="tip-down">继续上滑</p>
   </div>
 
-  <!-- 第4页 -->
+  <!-- 第4页：四大经典民俗 -->
   <div class="page page4" data-lock="false">
     <h2 class="page-title">四大经典民俗</h2>
     <div class="custom-grid">
@@ -252,7 +259,7 @@
     <p class="tip-down">继续上滑</p>
   </div>
 
-  <!-- 第5页 答题锁页 -->
+  <!-- 第5页：端午知识小问答（锁页） -->
   <div class="page page5" data-lock="true">
     <h2 class="page-title">端午知识小问答</h2>
     <div class="quiz-box">
@@ -260,24 +267,21 @@
       <div class="quiz-option" data-ans="wrong">A. 正月初一</div>
       <div class="quiz-option" data-ans="right">B. 五月初五</div>
       <div class="quiz-option" data-ans="wrong">C. 八月十五</div>
-
       <div class="quiz-question">2. 下列哪项不属于端午习俗？</div>
       <div class="quiz-option" data-ans="wrong">A. 赛龙舟</div>
       <div class="quiz-option" data-ans="right">B. 赏月</div>
       <div class="quiz-option" data-ans="wrong">C. 挂艾草</div>
-
       <div class="quiz-question">3. 粽子最初为纪念哪位先贤？</div>
       <div class="quiz-option" data-ans="right">A. 屈原</div>
       <div class="quiz-option" data-ans="wrong">B. 李白</div>
       <div class="quiz-option" data-ans="wrong">C. 杜甫</div>
-
       <div class="quiz-result" id="quizRes">答题完成！滑动已解锁，可上滑前往小游戏</div>
     </div>
     <p class="lock-tip" id="quizLockTip">⚠️ 完成全部3道题目，才能继续滑动</p>
     <p class="tip-down">答完题目再上滑</p>
   </div>
 
-  <!-- 第6页 翻牌锁页 -->
+  <!-- 第6页：翻牌配对挑战（锁页） -->
   <div class="page page6" data-lock="true">
     <h2 class="page-title">端午翻牌配对挑战</h2>
     <p>点击卡片翻牌，找出相同端午元素即可配对成功</p>
@@ -288,7 +292,7 @@
     <p class="tip-down">通关游戏再上滑</p>
   </div>
 
-  <!-- 第7页 -->
+  <!-- 第7页：端午文化新声 -->
   <div class="page page7" data-lock="false">
     <h2 class="page-title">端午文化新声</h2>
     <div class="text-box">
@@ -299,7 +303,7 @@
     <p class="tip-down">最后一页署名</p>
   </div>
 
-  <!-- 第8页 署名 -->
+  <!-- 第8页：结尾署名 -->
   <div class="page page8" data-lock="false">
     <h2 class="page-title">岁岁端午，岁岁平安</h2>
     <div class="text-box">
@@ -327,12 +331,14 @@
     isScrolling = true;
     const scrollTop = h5Container.scrollTop;
     const targetIndex = Math.round(scrollTop / pageHeight);
+
     // 向下回滚无限制
     if (targetIndex < currentPageIndex) {
       currentPageIndex = targetIndex;
       setTimeout(() => isScrolling = false, 300);
       return;
     }
+
     // 向上滑动校验锁页
     if (targetIndex > currentPageIndex) {
       // 当前页未完成解锁，强制拉回当前页
@@ -354,6 +360,7 @@
   const quizLockTip = document.getElementById("quizLockTip");
   let selectedCount = 0;
   const totalQuestion = 3;
+
   quizOptions.forEach(item => {
     item.onclick = function() {
       // 已选过禁止重复计数
@@ -391,7 +398,6 @@
     card.dataset.icon = icon;
     card.innerText = "?";
     cardWrap.appendChild(card);
-
     card.onclick = function() {
       if (lockClick || this.classList.contains("open")) return;
       this.classList.add("open");
