@@ -6,22 +6,37 @@
   <meta name="referrer" content="no-referrer">
   <title>粽叶飘香，端午安康 | 民俗交互式H5</title>
   <style>
+    :root {
+      --main-green: #247049;
+      --light-green: #e8f5ee;
+      --match-green: #dcf1e6;
+      --red-dark: #a83227;
+      --radius: 12px;
+      --shadow: 0 2px 8px rgba(0,60,30,0.1);
+      --gap-base: 16px;
+      --delay-scroll: 450;
+      --delay-flip: 1000;
+    }
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
       font-family: "Microsoft YaHei", SimSun, sans-serif;
+      -webkit-tap-highlight-color: transparent;
     }
     body {
       color: #222;
       height: 100vh;
       overflow: hidden;
+      touch-action: none;
+      background-color: #e6f4ee;
     }
     .h5-wrap {
       width: 100%;
       height: 100vh;
       overflow-y: scroll;
       scroll-snap-type: y mandatory;
+      -webkit-scroll-snap-type: y mandatory;
       scroll-behavior: smooth;
       -webkit-overflow-scrolling: touch;
     }
@@ -29,51 +44,93 @@
       width: 100%;
       height: 100vh;
       scroll-snap-align: start;
-      padding: 40px 24px;
+      -webkit-scroll-snap-align: start;
+      padding: max(30px, 4vh) 24px;
       position: relative;
     }
-    /* 1、第一、二页 端午主题纯色背景 */
-    .page1 {
-      /* 端午清雅青绿色纯色主题背景 */
+    /* 统一背景层 */
+    .page1, .page2, .page3, .page4, .page5, .page6, .page7 {
       background-color: #e6f4ee;
+      background: linear-gradient(rgba(255,255,255,0.52), rgba(255,255,255,0.52)),
+      url("https://bpic.588ku.com/back_pic/06/13/24/6662728a1aa884b.jpg") center/cover no-repeat;
       color: #222;
+    }
+    .page8 {
+      background: linear-gradient(#f0f7f3, #e8efe9);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: max(30px,4vh) 30px;
+    }
+    /* 封面居中 */
+    .page1 {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
     }
-    .page2 {
-      /* 端午柔和浅黛绿纯色背景 */
-      background-color: #f0f7f3;
-      color: #222;
-      /* 文本侧边竖向排列布局 */
+    /* 2、3页外层水平布局 */
+    .page2, .page3 {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding-left: 40px;
+    }
+    /* 通用竖排样式 左→右阅读 */
+    .vertical-single {
+      writing-mode: vertical-lr;
+      -webkit-writing-mode: vertical-lr;
+      text-orientation: upright;
+      letter-spacing: clamp(7px, 1vw, 9px);
+      max-height: 86vh;
+      height: auto;
+    }
+    .vertical-single .page-title {
+      margin-bottom: 40px;
+    }
+    .vertical-single .text-box {
+      line-height: 3.2;
+      font-size: 17px;
+    }
+    .vertical-single .text-box p {
+      margin-bottom: 0;
+    }
+    /* 第三页左右均分双栏 */
+    .page3-container {
+      display: flex;
+      flex-direction: row;
+      gap: clamp(50px, 8vw, 80px);
+      width: 100%;
+      align-items: flex-start;
+    }
+    .page3-container > div {
+      flex: 1;
+    }
+    /* 4、7页面整体居中 */
+    .page4, .page7 {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      align-items: flex-start;
-      text-align: left;
-      padding-left: 40px;
+      align-items: center;
+      text-align: center;
     }
-    /* 2、第三、四页 统一和第五六七页同款背景 */
-    .page3, .page4, .page5, .page6, .page7 {
-      background: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)),
-      url("https://bpic.588ku.com/back_pic/06/13/24/6662728a1aa884b.jpg") center/cover no-repeat;
-      color: #222;
+    .page4 .custom-grid {
+      max-width: 92%;
     }
-    .page8 {
-      background: linear-gradient(#f0f7f3, #e8efe9);
+    .page7 .text-box {
+      max-width: 88%;
+      text-align: center;
     }
-    /* 第三页文本侧边竖向排列样式 */
-    .page3 {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
-      text-align: left;
-      padding-left: 40px;
+    /* 2-7标题 黑色加粗统一 */
+    .page-title {
+      font-size: 26px;
+      color: #000;
+      font-weight: 700;
     }
-    /* 通用文字样式 */
+    /* 首页标题 */
     .main-title {
       font-size: 36px;
       font-weight: bold;
@@ -85,43 +142,37 @@
       opacity: 0.9;
       margin-bottom: 60px;
     }
-    .page-title {
-      font-size: 26px;
-      color: #a83227;
-      margin-bottom: 30px;
-      font-weight: bold;
-    }
     .text-box {
-      line-height: 1.8;
+      line-height: 2;
       font-size: 16px;
-      max-width: 85%;
+      max-width: 88%;
     }
     .text-box p {
-      margin-bottom: 16px;
+      margin-bottom: 18px;
     }
-    /* 民俗网格布局 */
+    /* 民俗网格卡片 */
     .custom-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: var(--gap-base);
       width: 100%;
       margin-top: 20px;
     }
     .custom-item {
       background: rgba(255,255,255,0.75);
       padding: 16px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,60,30,0.1);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
     }
     .custom-item h4 {
-      color: #247049;
+      color: var(--main-green);
       margin-bottom: 8px;
     }
-    /* 答题模块样式 */
+    /* 答题模块 */
     .quiz-box {
       width: 100%;
       background: rgba(255,255,255,0.85);
-      border-radius: 12px;
+      border-radius: var(--radius);
       padding: 20px;
       margin-top: 20px;
     }
@@ -129,10 +180,15 @@
       font-weight: bold;
       margin-bottom: 12px;
       text-align: left;
+      margin-top: 22px;
+    }
+    .quiz-question:first-child {
+      margin-top: 0;
     }
     .quiz-option {
       display: block;
       width: 100%;
+      min-height: 44px;
       text-align: left;
       padding: 10px 12px;
       margin: 8px 0;
@@ -140,22 +196,29 @@
       border-radius: 8px;
       background: #ffffff;
       cursor: pointer;
+      transition: 0.2s ease;
+    }
+    .quiz-option:active {
+      transform: scale(0.98);
+      opacity: 0.95;
     }
     .quiz-option.selected {
-      border-color: #247049;
-      background: #e8f5ee;
+      border-color: var(--main-green);
+      background: var(--light-green);
+      pointer-events: none;
+      opacity: 0.85;
     }
     .quiz-option:hover {
-      background: #e8f5ee;
-      border-color: #247049;
+      background: var(--light-green);
+      border-color: var(--main-green);
     }
     .quiz-result {
       margin-top: 16px;
       font-weight: bold;
-      color: #247049;
+      color: var(--main-green);
       display: none;
     }
-    /* 翻牌游戏样式 */
+    /* 翻牌游戏 */
     .card-game-box {
       width: 100%;
       margin-top: 20px;
@@ -167,7 +230,8 @@
     }
     .card-item {
       aspect-ratio: 1/1;
-      background: #247049;
+      min-height: 44px;
+      background: var(--main-green);
       border-radius: 8px;
       display: flex;
       align-items: center;
@@ -175,14 +239,26 @@
       color: #fff;
       font-size: 24px;
       cursor: pointer;
-      transition: 0.3s;
+      transition: 0.3s ease;
+      user-select: none;
+    }
+    .card-item:active {
+      opacity: 0.85;
     }
     .card-item.open {
       background: #fff;
-      color: #a83227;
-      border: 2px solid #247049;
+      color: var(--red-dark);
+      border: 2px solid var(--main-green);
     }
-    /* 提示文字样式 */
+    .card-item.match-success {
+      filter: brightness(1.1);
+      background: var(--match-green) !important;
+    }
+    .card-grid.completed .card-item {
+      pointer-events: none;
+      cursor: default;
+    }
+    /* 下滑提示带动画 */
     .tip-down {
       position: absolute;
       bottom: 30px;
@@ -190,9 +266,14 @@
       opacity: 0.7;
       left: 50%;
       transform: translateX(-50%);
+      animation: bounce 2s infinite ease-in-out;
+    }
+    @keyframes bounce {
+      0%,100%{transform:translateX(-50%) translateY(0);}
+      50%{transform:translateX(-50%) translateY(4px);}
     }
     .lock-tip {
-      color: #a83227;
+      color: var(--red-dark);
       font-weight: bold;
       margin-top:12px;
       font-size:15px;
@@ -201,42 +282,58 @@
       margin-top: 40px;
       font-size: 14px;
       color: #333;
+      line-height: 1.8;
+      text-align: center;
+    }
+    .game-success-tip {
+      margin-top:10px;
+      color:var(--main-green);
+      font-weight:bold;
+      display:none;
     }
   </style>
 </head>
 <body>
 <div class="h5-wrap" id="h5Container">
-  <!-- 第1页：封面页 -->
-  <div class="page page1" data-lock="false">
+  <!-- 第1页：封面 -->
+  <div class="page page1">
     <h1 class="main-title">粽叶飘香，端午安康</h1>
     <p class="sub-title">千年民俗文化专题</p>
     <p class="tip-down">↓ 向上滑动浏览</p>
   </div>
 
-  <!-- 第2页：端午序章（侧边竖向文本） -->
-  <div class="page page2" data-lock="false">
-    <h2 class="page-title">端午序章</h2>
-    <div class="text-box">
-      <p>又是一年端午至，满城粽叶香。</p>
-      <p>作为国家级非物质文化遗产，端午节跨越两千余年，承载着国人的家国情怀与民俗记忆。</p>
-      <p>今天，我们一起解锁端午完整文化密码。</p>
+  <!-- 第2页：端午序章 合并完整标点段落 -->
+  <div class="page page2">
+    <div class="vertical-single">
+      <h2 class="page-title">端午序章</h2>
+      <div class="text-box">
+        <p>又是一年端午至，满城粽叶香。作为国家级非物质文化遗产，端午节跨越两千余年，承载着国人的家国情怀与民俗记忆。今天，我们一起解锁端午完整文化密码。</p>
+      </div>
     </div>
     <p class="tip-down">继续上滑</p>
   </div>
 
-  <!-- 第3页：端午溯源（侧边竖向文本） -->
-  <div class="page page3" data-lock="false">
-    <h2 class="page-title">端午溯源</h2>
-    <div class="text-box">
-      <p><strong>节日由来</strong><br/>端午为农历五月初五，又称端阳节、龙舟节、浴兰节。</p>
-      <p><strong>千古传说</strong><br/>相传为纪念爱国诗人屈原。屈原心系家国投江明志，百姓划船寻觅、投粽护尸，习俗代代流传。</p>
-      <p>古时五月疫病多发，端午也被赋予驱邪避疫、祈福安康的美好寓意。</p>
+  <!-- 第3页：左右均分双竖排 -->
+  <div class="page page3">
+    <div class="page3-container">
+      <div class="vertical-single">
+        <h2 class="page-title">节日由来</h2>
+        <div class="text-box">
+          <p>端午为农历五月初五，又称端阳节、龙舟节、浴兰节。古时五月疫病多发，端午也被赋予驱邪避疫、祈福安康的美好寓意。</p>
+        </div>
+      </div>
+      <div class="vertical-single">
+        <h2 class="page-title">千古传说</h2>
+        <div class="text-box">
+          <p>相传为纪念爱国诗人屈原。屈原心系家国投江明志，百姓划船寻觅、投粽护尸，习俗代代流传。</p>
+        </div>
+      </div>
     </div>
     <p class="tip-down">继续上滑</p>
   </div>
 
-  <!-- 第4页：四大经典民俗 -->
-  <div class="page page4" data-lock="false">
+  <!-- 第4页：四大民俗居中 -->
+  <div class="page page4">
     <h2 class="page-title">四大经典民俗</h2>
     <div class="custom-grid">
       <div class="custom-item">
@@ -259,41 +356,45 @@
     <p class="tip-down">继续上滑</p>
   </div>
 
-  <!-- 第5页：端午知识小问答（锁页） -->
-  <div class="page page5" data-lock="true">
+  <!-- 第5页：答题锁页 -->
+  <div class="page page5">
     <h2 class="page-title">端午知识小问答</h2>
     <div class="quiz-box">
       <div class="quiz-question">1. 端午节是农历哪一天？</div>
-      <div class="quiz-option" data-ans="wrong">A. 正月初一</div>
-      <div class="quiz-option" data-ans="right">B. 五月初五</div>
-      <div class="quiz-option" data-ans="wrong">C. 八月十五</div>
+      <div class="quiz-option" data-question="1" data-ans="wrong">A. 正月初一</div>
+      <div class="quiz-option" data-question="1" data-ans="right">B. 五月初五</div>
+      <div class="quiz-option" data-question="1" data-ans="wrong">C. 八月十五</div>
+
       <div class="quiz-question">2. 下列哪项不属于端午习俗？</div>
-      <div class="quiz-option" data-ans="wrong">A. 赛龙舟</div>
-      <div class="quiz-option" data-ans="right">B. 赏月</div>
-      <div class="quiz-option" data-ans="wrong">C. 挂艾草</div>
+      <div class="quiz-option" data-question="2" data-ans="wrong">A. 赛龙舟</div>
+      <div class="quiz-option" data-question="2" data-ans="right">B. 赏月</div>
+      <div class="quiz-option" data-question="2" data-ans="wrong">C. 挂艾草</div>
+
       <div class="quiz-question">3. 粽子最初为纪念哪位先贤？</div>
-      <div class="quiz-option" data-ans="right">A. 屈原</div>
-      <div class="quiz-option" data-ans="wrong">B. 李白</div>
-      <div class="quiz-option" data-ans="wrong">C. 杜甫</div>
+      <div class="quiz-option" data-question="3" data-ans="right">A. 屈原</div>
+      <div class="quiz-option" data-question="3" data-ans="wrong">B. 李白</div>
+      <div class="quiz-option" data-question="3" data-ans="wrong">C. 杜甫</div>
+
       <div class="quiz-result" id="quizRes">答题完成！滑动已解锁，可上滑前往小游戏</div>
     </div>
     <p class="lock-tip" id="quizLockTip">⚠️ 完成全部3道题目，才能继续滑动</p>
     <p class="tip-down">答完题目再上滑</p>
   </div>
 
-  <!-- 第6页：翻牌配对挑战（锁页） -->
-  <div class="page page6" data-lock="true">
+  <!-- 第6页：翻牌锁页 -->
+  <div class="page page6">
     <h2 class="page-title">端午翻牌配对挑战</h2>
     <p>点击卡片翻牌，找出相同端午元素即可配对成功</p>
     <div class="card-game-box">
       <div class="card-grid" id="cardWrap"></div>
+      <p class="game-success-tip" id="gameTip">全部配对完成，页面已解锁！</p>
     </div>
     <p class="lock-tip" id="cardLockTip">⚠️ 完成全部配对，才能继续滑动</p>
     <p class="tip-down">通关游戏再上滑</p>
   </div>
 
-  <!-- 第7页：端午文化新声 -->
-  <div class="page page7" data-lock="false">
+  <!-- 第7页：文化新声居中 -->
+  <div class="page page7">
     <h2 class="page-title">端午文化新声</h2>
     <div class="text-box">
       <p>如今的端午，不再只是传统民俗。</p>
@@ -303,8 +404,8 @@
     <p class="tip-down">最后一页署名</p>
   </div>
 
-  <!-- 第8页：结尾署名 -->
-  <div class="page page8" data-lock="false">
+  <!-- 第8页：结尾居中横向 -->
+  <div class="page page8">
     <h2 class="page-title">岁岁端午，岁岁平安</h2>
     <div class="text-box">
       <p>愿清风送福，粽叶传香，万事安康。</p>
@@ -317,123 +418,156 @@
 </div>
 
 <script>
-  // 全局统一容器变量
-  const h5Container = document.getElementById('h5Container');
-  const pageHeight = window.innerHeight;
-  let currentPageIndex = 0;
-  // 锁页状态：索引0-7对应8页，true=可滑动，false=锁定
-  const pageUnlockState = [true, true, true, true, false, false, true, true];
-  let isScrolling = false;
+// ========== 全局常量统一管理（只读对象） ==========
+const CONST = Object.freeze({
+  SCROLL_DELAY: 450,
+  FLIP_DELAY: 1000,
+  UNLOCK: [true, true, true, true, false, false, true, true],
+  ICONS: ['🥟', '🚣', '🌿', '🧧', '🥟', '🚣', '🌿', '🧧']
+});
 
-  // 滚动拦截核心修复
-  h5Container.addEventListener('scroll', function() {
-    if (isScrolling) return;
-    isScrolling = true;
-    const scrollTop = h5Container.scrollTop;
-    const targetIndex = Math.round(scrollTop / pageHeight);
+// DOM缓存
+const h5Container = document.getElementById('h5Container');
+const cardWrap = document.getElementById('cardWrap');
+const quizRes = document.getElementById('quizRes');
+const quizLockTip = document.getElementById('quizLockTip');
+const gameTip = document.getElementById('gameTip');
+const cardLockTip = document.getElementById('cardLockTip');
+const allOptions = document.querySelectorAll('.quiz-option');
 
-    // 向下回滚无限制
-    if (targetIndex < currentPageIndex) {
-      currentPageIndex = targetIndex;
-      setTimeout(() => isScrolling = false, 300);
-      return;
-    }
+let pageHeight = window.innerHeight;
+let currentPage = 0;
+let isScrolling = false;
+let resizeTimer = null;
 
-    // 向上滑动校验锁页
-    if (targetIndex > currentPageIndex) {
-      // 当前页未完成解锁，强制拉回当前页
-      if (!pageUnlockState[currentPageIndex]) {
-        h5Container.scrollTo({
-          top: currentPageIndex * pageHeight,
-          behavior: 'smooth'
-        });
-      } else {
-        currentPageIndex = targetIndex;
-      }
-    }
-    setTimeout(() => isScrolling = false, 300);
-  })
+// 页面滚动跳转
+function scrollToPage(index) {
+  h5Container.scrollTo({
+    top: index * pageHeight,
+    behavior: 'smooth'
+  });
+  currentPage = index;
+}
 
-  // ========== 答题模块修复 ==========
-  const quizOptions = document.querySelectorAll(".quiz-option");
-  const quizRes = document.getElementById("quizRes");
-  const quizLockTip = document.getElementById("quizLockTip");
-  let selectedCount = 0;
-  const totalQuestion = 3;
+// 页面初始化
+window.addEventListener('load', () => {
+  setTimeout(()=>scrollToPage(0),50);
+});
 
-  quizOptions.forEach(item => {
-    item.onclick = function() {
-      // 已选过禁止重复计数
-      if (this.classList.contains("selected")) return;
-      this.classList.add("selected");
-      selectedCount += 1;
-      // 3题全部选择完成解锁第5页(index4)
-      if (selectedCount === totalQuestion) {
-        quizRes.style.display = "block";
-        quizLockTip.style.display = "none";
-        pageUnlockState[4] = true;
-      }
-    }
-  })
+// 窗口大小防抖重计算
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    pageHeight = window.innerHeight;
+    setTimeout(()=>scrollToPage(currentPage),100);
+  }, 200);
+});
 
-  // ========== 翻牌配对游戏完整修复 ==========
-  const cardWrap = document.getElementById("cardWrap");
-  const cardLockTip = document.getElementById("cardLockTip");
-  const cardIcons = ["🥟","🚣","🌿","🧧","🥟","🚣","🌿","🧧"];
-  let openCards = [];
-  let lockClick = false;
-  let matchCompleteCount = 0;
-  const totalMatchGroup = 4;
+// 滚动节流锁页逻辑
+h5Container.addEventListener('scroll', () => {
+  if (isScrolling) return;
+  isScrolling = true;
+  const top = h5Container.scrollTop;
+  const target = Math.round(top / pageHeight);
 
-  // 洗牌函数
-  function shuffle(arr) {
-    return arr.sort(() => Math.random() - 0.5);
+  // 向下无限制
+  if (target < currentPage) {
+    currentPage = target;
+    setTimeout(() => isScrolling = false, CONST.SCROLL_DELAY);
+    return;
   }
-  let shuffledCards = shuffle([...cardIcons]);
-
-  // 动态生成卡片
-  shuffledCards.forEach(icon => {
-    const card = document.createElement("div");
-    card.className = "card-item";
-    card.dataset.icon = icon;
-    card.innerText = "?";
-    cardWrap.appendChild(card);
-    card.onclick = function() {
-      if (lockClick || this.classList.contains("open")) return;
-      this.classList.add("open");
-      this.innerText = this.dataset.icon;
-      openCards.push(this);
-
-      // 翻开两张判断匹配
-      if (openCards.length === 2) {
-        lockClick = true;
-        const c1 = openCards[0];
-        const c2 = openCards[1];
-        if (c1.dataset.icon === c2.dataset.icon) {
-          // 匹配成功
-          matchCompleteCount++;
-          openCards = [];
-          lockClick = false;
-          // 4组全部配对解锁第6页(index5)
-          if (matchCompleteCount === totalMatchGroup) {
-            cardLockTip.style.display = "none";
-            pageUnlockState[5] = true;
-            alert("全部配对完成！已解锁滑动至下一页");
-          }
-        } else {
-          // 不匹配，延时翻回
-          setTimeout(() => {
-            c1.classList.remove("open");
-            c2.classList.remove("open");
-            c1.innerText = "?";
-            c2.innerText = "?";
-            openCards = [];
-            lockClick = false;
-          }, 1000)
-        }
-      }
+  // 向上校验解锁
+  if (target > currentPage) {
+    if (!CONST.UNLOCK[currentPage]) {
+      scrollToPage(currentPage);
+    } else {
+      currentPage = target;
     }
-  })
+  }
+  setTimeout(() => isScrolling = false, CONST.SCROLL_DELAY);
+});
+
+// ========== 答题模块（加固防重复作答） ==========
+const answeredSet = new Set();
+allOptions.forEach(opt => {
+  opt.addEventListener('click', () => {
+    const q = opt.dataset.question;
+    if (answeredSet.has(q)) return;
+    // 同题目互斥取消其他选中
+    document.querySelectorAll(`[data-question="${q}"]`).forEach(item => {
+      item.classList.remove('selected');
+    });
+    opt.classList.add('selected');
+    answeredSet.add(q);
+
+    // 全部答完解锁
+    if (answeredSet.size === 3) {
+      quizRes.style.display = 'block';
+      quizLockTip.style.display = 'none';
+      CONST.UNLOCK[4] = true;
+    }
+  });
+});
+
+// ========== 翻牌配对游戏（时序锁+通关禁用） ==========
+let openCards = [];
+let cardLock = false;
+let matchCount = 0;
+
+// 洗牌工具
+function shuffle(arr) {
+  const copy = [...arr];
+  copy.sort(() => Math.random() - 0.5);
+  return copy;
+}
+
+// 渲染卡片
+shuffle(CONST.ICONS).forEach(icon => {
+  const card = document.createElement('div');
+  card.className = 'card-item';
+  card.dataset.icon = icon;
+  card.textContent = '?';
+  cardWrap.appendChild(card);
+
+  card.addEventListener('click', () => {
+    if (cardLock || card.classList.contains('open') || cardWrap.classList.contains('completed')) return;
+    cardLock = true; // 翻开第一张立即上锁
+    card.classList.add('open');
+    card.textContent = icon;
+    openCards.push(card);
+
+    if (openCards.length === 2) {
+      const [c1, c2] = openCards;
+      if (c1.dataset.icon === c2.dataset.icon) {
+        // 匹配成功
+        matchCount++;
+        c1.classList.add('match-success');
+        c2.classList.add('match-success');
+        openCards = [];
+        cardLock = false;
+        // 全部通关解锁+全局禁用卡片
+        if (matchCount === 4) {
+          cardLockTip.style.display = 'none';
+          gameTip.style.display = 'block';
+          CONST.UNLOCK[5] = true;
+          cardWrap.classList.add('completed');
+        }
+      } else {
+        // 匹配失败延时翻回
+        setTimeout(() => {
+          c1.classList.remove('open');
+          c2.classList.remove('open');
+          c1.textContent = '?';
+          c2.textContent = '?';
+          openCards = [];
+          cardLock = false;
+        }, CONST.FLIP_DELAY);
+      }
+    } else {
+      cardLock = false;
+    }
+  });
+});
 </script>
 </body>
 </html>
