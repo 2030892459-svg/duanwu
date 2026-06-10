@@ -21,7 +21,7 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: "Microsoft YaHei", SimSun, sans-serif;
+      font-family: "Microsoft YaHei", SimSun, "PingFang SC", "Noto Sans CJK SC", sans-serif;
       -webkit-tap-highlight-color: transparent;
     }
     body {
@@ -48,7 +48,6 @@
       padding: max(30px, 4vh) 24px;
       position: relative;
     }
-    /* 统一背景层 */
     .page1, .page2, .page3, .page4, .page5, .page6, .page7 {
       background-color: #e6f4ee;
       background: linear-gradient(rgba(255,255,255,0.52), rgba(255,255,255,0.52)),
@@ -64,7 +63,6 @@
       text-align: center;
       padding: max(30px,4vh) 30px;
     }
-    /* 封面居中 */
     .page1 {
       display: flex;
       flex-direction: column;
@@ -72,14 +70,12 @@
       align-items: center;
       text-align: center;
     }
-    /* 2、3页外层水平布局 */
     .page2, .page3 {
       display: flex;
       flex-direction: row;
       align-items: center;
       padding-left: 40px;
     }
-    /* 通用竖排样式 左→右阅读 */
     .vertical-single {
       writing-mode: vertical-lr;
       -webkit-writing-mode: vertical-lr;
@@ -98,7 +94,6 @@
     .vertical-single .text-box p {
       margin-bottom: 0;
     }
-    /* 第三页左右均分双栏 */
     .page3-container {
       display: flex;
       flex-direction: row;
@@ -109,7 +104,6 @@
     .page3-container > div {
       flex: 1;
     }
-    /* 4、7页面整体居中 */
     .page4, .page7 {
       display: flex;
       flex-direction: column;
@@ -124,13 +118,11 @@
       max-width: 88%;
       text-align: center;
     }
-    /* 2-7标题 黑色加粗统一 */
     .page-title {
       font-size: 26px;
       color: #000;
       font-weight: 700;
     }
-    /* 首页标题 */
     .main-title {
       font-size: 36px;
       font-weight: bold;
@@ -150,7 +142,6 @@
     .text-box p {
       margin-bottom: 18px;
     }
-    /* 民俗网格卡片 */
     .custom-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -168,7 +159,6 @@
       color: var(--main-green);
       margin-bottom: 8px;
     }
-    /* 答题模块 */
     .quiz-box {
       width: 100%;
       background: rgba(255,255,255,0.85);
@@ -218,7 +208,6 @@
       color: var(--main-green);
       display: none;
     }
-    /* 翻牌游戏 */
     .card-game-box {
       width: 100%;
       margin-top: 20px;
@@ -226,39 +215,49 @@
     .card-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
+      gap: 12px;
     }
     .card-item {
       aspect-ratio: 1/1;
-      min-height: 44px;
-      background: var(--main-green);
-      border-radius: 8px;
+      background: linear-gradient(145deg, #2c8b5a, #1f5f3f);
+      border-radius: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #fff;
-      font-size: 24px;
+      color: #fff5e0;
+      font-size: 42px;
+      font-weight: normal;
       cursor: pointer;
-      transition: 0.3s ease;
+      transition: all 0.2s ease;
       user-select: none;
+      box-shadow: 0 8px 0 #0f3a24;
+      transform: translateY(-2px);
     }
     .card-item:active {
-      opacity: 0.85;
+      transform: translateY(3px);
+      box-shadow: 0 4px 0 #0f3a24;
     }
     .card-item.open {
-      background: #fff;
-      color: var(--red-dark);
+      background: #fffef2;
+      color: #bf5e2c;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transform: scale(0.96);
       border: 2px solid var(--main-green);
     }
     .card-item.match-success {
-      filter: brightness(1.1);
-      background: var(--match-green) !important;
+      background: #d4ecd9 !important;
+      color: #286e46 !important;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      opacity: 0.9;
+      cursor: default;
+      border: 2px solid #3d8b5e;
+      transform: scale(0.94);
     }
     .card-grid.completed .card-item {
       pointer-events: none;
       cursor: default;
+      filter: brightness(0.96);
     }
-    /* 下滑提示带动画 */
     .tip-down {
       position: absolute;
       bottom: 30px;
@@ -267,16 +266,26 @@
       left: 50%;
       transform: translateX(-50%);
       animation: bounce 2s infinite ease-in-out;
+      background: rgba(0,0,0,0.05);
+      padding: 4px 12px;
+      border-radius: 40px;
+      backdrop-filter: blur(4px);
+      white-space: nowrap;
     }
     @keyframes bounce {
       0%,100%{transform:translateX(-50%) translateY(0);}
-      50%{transform:translateX(-50%) translateY(4px);}
+      50%{transform:translateX(-50%) translateY(5px);}
     }
     .lock-tip {
       color: var(--red-dark);
       font-weight: bold;
       margin-top:12px;
       font-size:15px;
+      background: rgba(255,245,235,0.8);
+      display: inline-block;
+      padding: 4px 16px;
+      border-radius: 50px;
+      backdrop-filter: blur(2px);
     }
     .sign-text {
       margin-top: 40px;
@@ -286,23 +295,64 @@
       text-align: center;
     }
     .game-success-tip {
-      margin-top:10px;
+      margin-top:12px;
       color:var(--main-green);
       font-weight:bold;
       display:none;
+      font-size: 16px;
+      background: #eaffef;
+      padding: 6px 16px;
+      border-radius: 36px;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .music-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(30, 80, 50, 0.9);
+      color: #fff8e7;
+      text-align: center;
+      line-height: 50px;
+      font-size: 26px;
+      z-index: 9999;
+      cursor: pointer;
+      user-select: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      backdrop-filter: blur(6px);
+      transition: 0.2s;
+      border: 1px solid rgba(255,215,150,0.8);
+    }
+    .music-btn:active {
+      transform: scale(0.92);
+    }
+    @keyframes musicRotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .music-rot {
+      animation: musicRotate 6s linear infinite;
+      display: inline-block;
+    }
+    .page5, .page6 {
+      text-align: center;
     }
   </style>
 </head>
 <body>
+<div class="music-btn" id="musicBtn">🎵</div>
+
 <div class="h5-wrap" id="h5Container">
-  <!-- 第1页：封面 -->
   <div class="page page1">
     <h1 class="main-title">粽叶飘香，端午安康</h1>
     <p class="sub-title">千年民俗文化专题</p>
-    <p class="tip-down">↓ 向上滑动浏览</p>
+    <p class="tip-down">↑ 向上滑动浏览</p>
   </div>
 
-  <!-- 第2页：端午序章 合并完整标点段落 -->
   <div class="page page2">
     <div class="vertical-single">
       <h2 class="page-title">端午序章</h2>
@@ -313,7 +363,6 @@
     <p class="tip-down">继续上滑</p>
   </div>
 
-  <!-- 第3页：左右均分双竖排 -->
   <div class="page page3">
     <div class="page3-container">
       <div class="vertical-single">
@@ -332,31 +381,17 @@
     <p class="tip-down">继续上滑</p>
   </div>
 
-  <!-- 第4页：四大民俗居中 -->
   <div class="page page4">
     <h2 class="page-title">四大经典民俗</h2>
     <div class="custom-grid">
-      <div class="custom-item">
-        <h4>食粽子</h4>
-        <p>南北风味各有千秋，甜粽软糯、咸粽鲜香。</p>
-      </div>
-      <div class="custom-item">
-        <h4>赛龙舟</h4>
-        <p>击鼓扬帆百舸争流，尽显奋勇争先精神。</p>
-      </div>
-      <div class="custom-item">
-        <h4>挂艾草菖蒲</h4>
-        <p>门前悬草木驱虫净气，守护四季安康。</p>
-      </div>
-      <div class="custom-item">
-        <h4>佩香囊</h4>
-        <p>彩绳绣囊填充香草，随身祈福平安吉祥。</p>
-      </div>
+      <div class="custom-item"><h4>食粽子</h4><p>南北风味各有千秋，甜粽软糯、咸粽鲜香。</p></div>
+      <div class="custom-item"><h4>赛龙舟</h4><p>击鼓扬帆百舸争流，尽显奋勇争先精神。</p></div>
+      <div class="custom-item"><h4>挂艾草菖蒲</h4><p>门前悬草木驱虫净气，守护四季安康。</p></div>
+      <div class="custom-item"><h4>佩香囊</h4><p>彩绳绣囊填充香草，随身祈福平安吉祥。</p></div>
     </div>
     <p class="tip-down">继续上滑</p>
   </div>
 
-  <!-- 第5页：答题锁页 -->
   <div class="page page5">
     <h2 class="page-title">端午知识小问答</h2>
     <div class="quiz-box">
@@ -364,36 +399,31 @@
       <div class="quiz-option" data-question="1" data-ans="wrong">A. 正月初一</div>
       <div class="quiz-option" data-question="1" data-ans="right">B. 五月初五</div>
       <div class="quiz-option" data-question="1" data-ans="wrong">C. 八月十五</div>
-
       <div class="quiz-question">2. 下列哪项不属于端午习俗？</div>
       <div class="quiz-option" data-question="2" data-ans="wrong">A. 赛龙舟</div>
       <div class="quiz-option" data-question="2" data-ans="right">B. 赏月</div>
       <div class="quiz-option" data-question="2" data-ans="wrong">C. 挂艾草</div>
-
       <div class="quiz-question">3. 粽子最初为纪念哪位先贤？</div>
       <div class="quiz-option" data-question="3" data-ans="right">A. 屈原</div>
       <div class="quiz-option" data-question="3" data-ans="wrong">B. 李白</div>
       <div class="quiz-option" data-question="3" data-ans="wrong">C. 杜甫</div>
-
-      <div class="quiz-result" id="quizRes">答题完成！滑动已解锁，可上滑前往小游戏</div>
+      <div class="quiz-result" id="quizRes">🎉 太棒了！答题完成，端午文化达人就是你！滑动已解锁~</div>
     </div>
     <p class="lock-tip" id="quizLockTip">⚠️ 完成全部3道题目，才能继续滑动</p>
     <p class="tip-down">答完题目再上滑</p>
   </div>
 
-  <!-- 第6页：翻牌锁页 -->
   <div class="page page6">
     <h2 class="page-title">端午翻牌配对挑战</h2>
-    <p>点击卡片翻牌，找出相同端午元素即可配对成功</p>
+    <p style="margin-bottom:6px;">🐉 翻开卡片，配对相同端午元素 🧧</p>
     <div class="card-game-box">
       <div class="card-grid" id="cardWrap"></div>
-      <p class="game-success-tip" id="gameTip">全部配对完成，页面已解锁！</p>
+      <p class="game-success-tip" id="gameTip">✅ 巧手配佳缘！端午安康，页面解锁~</p>
     </div>
     <p class="lock-tip" id="cardLockTip">⚠️ 完成全部配对，才能继续滑动</p>
     <p class="tip-down">通关游戏再上滑</p>
   </div>
 
-  <!-- 第7页：文化新声居中 -->
   <div class="page page7">
     <h2 class="page-title">端午文化新声</h2>
     <div class="text-box">
@@ -404,29 +434,22 @@
     <p class="tip-down">最后一页署名</p>
   </div>
 
-  <!-- 第8页：结尾居中横向 -->
   <div class="page page8">
     <h2 class="page-title">岁岁端午，岁岁平安</h2>
-    <div class="text-box">
-      <p>愿清风送福，粽叶传香，万事安康。</p>
-    </div>
-    <div class="sign-text">
-      <p>制作小组：赵志鑫 & 李雨蒙</p>
-      <p>完成日期：2026年06月08日</p>
-    </div>
+    <div class="text-box"><p>愿清风送福，粽叶传香，万事安康。</p></div>
+    <div class="sign-text"><p>制作小组：赵志鑫 & 李雨蒙</p><p>完成日期：2026年06月08日</p></div>
   </div>
 </div>
 
 <script>
-// ========== 全局常量统一管理（只读对象） ==========
-const CONST = Object.freeze({
+// ========== 全局配置 ==========
+const APP = {
   SCROLL_DELAY: 450,
   FLIP_DELAY: 1000,
   UNLOCK: [true, true, true, true, false, false, true, true],
-  ICONS: ['🥟', '🚣', '🌿', '🧧', '🥟', '🚣', '🌿', '🧧']
-});
+  PAIRS: ['🍙', '🐉', '🌿', '🧧', '🍙', '🐉', '🌿', '🧧']
+};
 
-// DOM缓存
 const h5Container = document.getElementById('h5Container');
 const cardWrap = document.getElementById('cardWrap');
 const quizRes = document.getElementById('quizRes');
@@ -434,140 +457,335 @@ const quizLockTip = document.getElementById('quizLockTip');
 const gameTip = document.getElementById('gameTip');
 const cardLockTip = document.getElementById('cardLockTip');
 const allOptions = document.querySelectorAll('.quiz-option');
+const musicBtn = document.getElementById('musicBtn');
 
 let pageHeight = window.innerHeight;
 let currentPage = 0;
 let isScrolling = false;
 let resizeTimer = null;
 
-// 页面滚动跳转
-function scrollToPage(index) {
-  h5Container.scrollTo({
-    top: index * pageHeight,
-    behavior: 'smooth'
+// ========== 音乐模块 - 使用Web Audio API生成风铃般空灵的背景音 (100%可播放，无网络依赖) ==========
+// 这种方法完全不依赖外部音频文件，兼容所有浏览器，自动播放策略友好
+let audioCtx = null;
+let musicGain = null;
+let musicOscillators = [];
+let musicActive = false;
+let musicInterval = null;
+
+// 初始化音频上下文（需要在用户交互后启动）
+function initAudioContext() {
+  if (audioCtx) return audioCtx;
+  const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+  if (!AudioContextClass) return null;
+  audioCtx = new AudioContextClass();
+  musicGain = audioCtx.createGain();
+  musicGain.gain.value = 0; // 初始静音，淡入时增大
+  musicGain.connect(audioCtx.destination);
+  return audioCtx;
+}
+
+// 生成一个轻柔的、类似风铃/古筝泛音的音色
+function createGentleTone(frequency, startTime, duration, volume) {
+  if (!audioCtx) return;
+  const osc = audioCtx.createOscillator();
+  const gainNode = audioCtx.createGain();
+  osc.type = 'sine';  // 正弦波最柔和
+  osc.frequency.value = frequency;
+  gainNode.gain.value = 0;
+  osc.connect(gainNode);
+  gainNode.connect(musicGain);
+  
+  const now = audioCtx.currentTime;
+  gainNode.gain.setValueAtTime(0, now + startTime);
+  gainNode.gain.linearRampToValueAtTime(volume, now + startTime + 0.2);
+  gainNode.gain.exponentialRampToValueAtTime(0.0001, now + startTime + duration);
+  
+  osc.start(now + startTime);
+  osc.stop(now + startTime + duration);
+  
+  // 记录并自动清理
+  musicOscillators.push(osc);
+  setTimeout(() => {
+    const idx = musicOscillators.indexOf(osc);
+    if (idx > -1) musicOscillators.splice(idx, 1);
+  }, duration * 1000 + 500);
+}
+
+// 播放一个舒缓的音乐序列 (类似古风即兴旋律)
+let melodyIndex = 0;
+function playMelodyPhrase() {
+  if (!musicActive || !audioCtx) return;
+  if (audioCtx.state !== 'running') return;
+  
+  // 清冷的国风五声音阶 (do re mi sol la)： 对应频率 D E G A B (简约为端午氛围)
+  const notes = [293.66, 329.63, 392.00, 440.00, 493.88]; // D4, E4, G4, A4, B4
+  // 随机选3-5个音组成小乐句
+  const phraseLength = Math.floor(Math.random() * 4) + 3; // 3~6个音
+  const startDelay = 0;
+  let timeOffset = 0;
+  for (let i = 0; i < phraseLength; i++) {
+    const noteIdx = Math.floor(Math.random() * notes.length);
+    const freq = notes[noteIdx];
+    const duration = 0.9 + Math.random() * 0.6;
+    const volume = 0.12 + Math.random() * 0.08; // 轻柔音量
+    createGentleTone(freq, startDelay + timeOffset, duration, volume);
+    timeOffset += duration * 0.85;
+  }
+  // 句尾加一个低音泛音
+  setTimeout(() => {
+    if (musicActive && audioCtx && audioCtx.state === 'running') {
+      createGentleTone(130.81, 0, 1.8, 0.1); // C3 低音烘托
+    }
+  }, (startDelay + timeOffset) * 1000);
+}
+
+// 背景循环播放 (每6~9秒一段)
+function startBackgroundMelody() {
+  if (musicInterval) clearInterval(musicInterval);
+  musicInterval = setInterval(() => {
+    if (musicActive && audioCtx && audioCtx.state === 'running') {
+      playMelodyPhrase();
+    }
+  }, 7000);
+}
+
+// 淡入音乐
+function fadeInMusic() {
+  if (!musicGain) return;
+  const now = audioCtx.currentTime;
+  musicGain.gain.cancelScheduledValues(now);
+  musicGain.gain.setValueAtTime(musicGain.gain.value, now);
+  musicGain.gain.linearRampToValueAtTime(0.26, now + 1.5);
+}
+
+function fadeOutMusic() {
+  if (!musicGain) return;
+  const now = audioCtx.currentTime;
+  musicGain.gain.cancelScheduledValues(now);
+  musicGain.gain.setValueAtTime(musicGain.gain.value, now);
+  musicGain.gain.linearRampToValueAtTime(0, now + 0.8);
+}
+
+function stopAllSounds() {
+  if (musicInterval) {
+    clearInterval(musicInterval);
+    musicInterval = null;
+  }
+  musicOscillators.forEach(osc => {
+    try { osc.stop(); } catch(e) {}
   });
+  musicOscillators = [];
+}
+
+function startMusic() {
+  if (musicActive) return;
+  const ctx = initAudioContext();
+  if (!ctx) {
+    console.warn("不支持Web Audio");
+    return;
+  }
+  // 确保上下文处于运行状态
+  if (ctx.state === 'suspended') {
+    ctx.resume().then(() => {
+      startMusicInternal();
+    }).catch(e => console.log("音频恢复失败", e));
+  } else {
+    startMusicInternal();
+  }
+}
+
+function startMusicInternal() {
+  if (musicActive) return;
+  musicActive = true;
+  // 清空旧声音，重新开始序列
+  stopAllSounds();
+  if (musicGain) musicGain.gain.value = 0;
+  fadeInMusic();
+  // 立刻播放一段小旋律
+  setTimeout(() => {
+    if (musicActive && audioCtx && audioCtx.state === 'running') {
+      playMelodyPhrase();
+      playMelodyPhrase(); // 起始多一段氛围
+    }
+  }, 100);
+  startBackgroundMelody();
+  musicBtn.classList.add('music-rot');
+}
+
+function stopMusic() {
+  if (!musicActive) return;
+  musicActive = false;
+  fadeOutMusic();
+  if (musicInterval) {
+    clearInterval(musicInterval);
+    musicInterval = null;
+  }
+  // 延迟停止现有振荡器
+  setTimeout(() => {
+    if (!musicActive) {
+      stopAllSounds();
+    }
+  }, 800);
+  musicBtn.classList.remove('music-rot');
+}
+
+// 音乐按钮交互
+musicBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  if (musicActive) {
+    stopMusic();
+  } else {
+    startMusic();
+  }
+});
+
+// 用户首次触摸自动启动音乐（符合浏览器策略）
+let userInteracted = false;
+function firstInteractionStartMusic() {
+  if (userInteracted) return;
+  userInteracted = true;
+  // 延迟一点点确保上下文初始化
+  setTimeout(() => {
+    if (!musicActive) {
+      startMusic();
+    }
+  }, 50);
+}
+document.body.addEventListener('touchstart', firstInteractionStartMusic, { once: true });
+document.body.addEventListener('click', firstInteractionStartMusic, { once: true });
+
+// 页面退出时停止音乐释放资源
+window.addEventListener('beforeunload', () => {
+  if (audioCtx) {
+    audioCtx.close();
+  }
+});
+
+// ========== 滚动锁页逻辑 ==========
+function scrollToPage(idx) {
+  let index = Math.min(Math.max(0, idx), 7);
+  h5Container.scrollTo({ top: index * pageHeight, behavior: 'smooth' });
   currentPage = index;
 }
 
-// 页面初始化
 window.addEventListener('load', () => {
-  setTimeout(()=>scrollToPage(0),50);
+  pageHeight = window.innerHeight;
+  setTimeout(() => scrollToPage(0), 60);
 });
 
-// 窗口大小防抖重计算
 window.addEventListener('resize', () => {
   clearTimeout(resizeTimer);
   resizeTimer = setTimeout(() => {
     pageHeight = window.innerHeight;
-    setTimeout(()=>scrollToPage(currentPage),100);
-  }, 200);
+    scrollToPage(currentPage);
+  }, 150);
 });
 
-// 滚动节流锁页逻辑
 h5Container.addEventListener('scroll', () => {
   if (isScrolling) return;
   isScrolling = true;
   const top = h5Container.scrollTop;
   const target = Math.round(top / pageHeight);
-
-  // 向下无限制
   if (target < currentPage) {
     currentPage = target;
-    setTimeout(() => isScrolling = false, CONST.SCROLL_DELAY);
+    setTimeout(() => isScrolling = false, APP.SCROLL_DELAY);
     return;
   }
-  // 向上校验解锁
   if (target > currentPage) {
-    if (!CONST.UNLOCK[currentPage]) {
+    if (!APP.UNLOCK[currentPage]) {
       scrollToPage(currentPage);
     } else {
       currentPage = target;
     }
   }
-  setTimeout(() => isScrolling = false, CONST.SCROLL_DELAY);
+  setTimeout(() => isScrolling = false, APP.SCROLL_DELAY);
 });
 
-// ========== 答题模块（加固防重复作答） ==========
+// ========== 答题模块 ==========
 const answeredSet = new Set();
 allOptions.forEach(opt => {
-  opt.addEventListener('click', () => {
-    const q = opt.dataset.question;
+  opt.addEventListener('click', function() {
+    const q = this.dataset.question;
     if (answeredSet.has(q)) return;
-    // 同题目互斥取消其他选中
-    document.querySelectorAll(`[data-question="${q}"]`).forEach(item => {
-      item.classList.remove('selected');
-    });
-    opt.classList.add('selected');
+    document.querySelectorAll(`[data-question="${q}"]`).forEach(item => item.classList.remove('selected'));
+    this.classList.add('selected');
     answeredSet.add(q);
-
-    // 全部答完解锁
     if (answeredSet.size === 3) {
       quizRes.style.display = 'block';
       quizLockTip.style.display = 'none';
-      CONST.UNLOCK[4] = true;
+      APP.UNLOCK[4] = true;
     }
   });
 });
 
-// ========== 翻牌配对游戏（时序锁+通关禁用） ==========
-let openCards = [];
-let cardLock = false;
-let matchCount = 0;
+// ========== 翻牌配对游戏 ==========
+let openedCardsList = [];
+let cardSystemLocked = false;
+let matchedPairs = 0;
 
-// 洗牌工具
-function shuffle(arr) {
-  const copy = [...arr];
-  copy.sort(() => Math.random() - 0.5);
-  return copy;
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
 }
 
-// 渲染卡片
-shuffle(CONST.ICONS).forEach(icon => {
-  const card = document.createElement('div');
-  card.className = 'card-item';
-  card.dataset.icon = icon;
-  card.textContent = '?';
-  cardWrap.appendChild(card);
-
-  card.addEventListener('click', () => {
-    if (cardLock || card.classList.contains('open') || cardWrap.classList.contains('completed')) return;
-    cardLock = true; // 翻开第一张立即上锁
-    card.classList.add('open');
-    card.textContent = icon;
-    openCards.push(card);
-
-    if (openCards.length === 2) {
-      const [c1, c2] = openCards;
-      if (c1.dataset.icon === c2.dataset.icon) {
-        // 匹配成功
-        matchCount++;
-        c1.classList.add('match-success');
-        c2.classList.add('match-success');
-        openCards = [];
-        cardLock = false;
-        // 全部通关解锁+全局禁用卡片
-        if (matchCount === 4) {
-          cardLockTip.style.display = 'none';
-          gameTip.style.display = 'block';
-          CONST.UNLOCK[5] = true;
-          cardWrap.classList.add('completed');
+function buildCardGame() {
+  if (!cardWrap) return;
+  cardWrap.innerHTML = '';
+  openedCardsList = [];
+  cardSystemLocked = false;
+  matchedPairs = 0;
+  const shuffledIcons = shuffleArray([...APP.PAIRS]);
+  shuffledIcons.forEach((icon) => {
+    const card = document.createElement('div');
+    card.className = 'card-item';
+    card.dataset.icon = icon;
+    card.textContent = '?';
+    cardWrap.appendChild(card);
+    card.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (cardSystemLocked) return;
+      if (card.classList.contains('open') || card.classList.contains('match-success')) return;
+      if (cardWrap.classList.contains('completed')) return;
+      card.classList.add('open');
+      card.textContent = icon;
+      openedCardsList.push(card);
+      if (openedCardsList.length === 2) {
+        cardSystemLocked = true;
+        const [cardA, cardB] = openedCardsList;
+        if (cardA.dataset.icon === cardB.dataset.icon) {
+          cardA.classList.add('match-success');
+          cardB.classList.add('match-success');
+          matchedPairs++;
+          openedCardsList = [];
+          cardSystemLocked = false;
+          if (matchedPairs === 4) {
+            cardLockTip.style.display = 'none';
+            gameTip.style.display = 'block';
+            APP.UNLOCK[5] = true;
+            cardWrap.classList.add('completed');
+          }
+        } else {
+          setTimeout(() => {
+            if (cardA && cardB) {
+              cardA.classList.remove('open');
+              cardB.classList.remove('open');
+              cardA.textContent = '?';
+              cardB.textContent = '?';
+            }
+            openedCardsList = [];
+            cardSystemLocked = false;
+          }, APP.FLIP_DELAY);
         }
-      } else {
-        // 匹配失败延时翻回
-        setTimeout(() => {
-          c1.classList.remove('open');
-          c2.classList.remove('open');
-          c1.textContent = '?';
-          c2.textContent = '?';
-          openCards = [];
-          cardLock = false;
-        }, CONST.FLIP_DELAY);
       }
-    } else {
-      cardLock = false;
-    }
+    });
   });
-});
+}
+buildCardGame();
+
+document.querySelectorAll('.card-item').forEach(c => c.addEventListener('touchstart', (e) => e.stopPropagation()));
 </script>
 </body>
 </html>
